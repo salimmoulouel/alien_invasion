@@ -1,3 +1,4 @@
+from alien import Alien
 from ship import Ship
 from settings import Settings
 import sys
@@ -20,6 +21,36 @@ class Alien_invasion:
         pygame.display.set_caption("Alien invasion")
         self.ship=Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
+
+
+
+    def _create_fleet(self):
+        # create fleet of aliens
+        # create alien prototype to get the left begin width 
+        alien = Alien(self)
+        alien_width = alien.rect.width
+        # we release 1 alien width in the left and right of screen
+        available_space_x = self.settings.screen_width - ( alien_width)
+        # we let 1 alien_width in the right of each alien
+        number_aliens_x = available_space_x // (2 * alien_width)
+        del alien
+        for alien_number in range(number_aliens_x):
+            alien = Alien(self)
+            #set the left position of each alien in the screen
+            alien.x = alien_width + 2 * alien_width * alien_number
+            alien.rect.x=alien.x
+            self.aliens.add(alien)
+        
+            """
+            if(alien.screen.right>self.screen.right):
+                del alien
+                break
+            self.aliens.add(Alien(self))
+            """
+        
 
     def _check_event(self):
         """allow us to check if event occur and respond"""
@@ -66,6 +97,8 @@ class Alien_invasion:
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        #draw the aliens
+        self.aliens.draw(self.screen)
         # draw the screen after all the changes occured
         pygame.display.flip()
 
@@ -80,7 +113,7 @@ class Alien_invasion:
     def run_game(self):
         """start the game by calling a main loop"""
         while True:
-            self._check_event()   
+            self._check_event()  
             self.ship.update() 
             self._update_bullets()
             self._update_screen()

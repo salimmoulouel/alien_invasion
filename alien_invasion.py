@@ -34,16 +34,30 @@ class Alien_invasion:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right=True
-                elif event.key == pygame.K_LEFT:    
-                    self.ship.moving_left=True
-            elif event.type == pygame.KEYUP:
+            self._check_key_down_event(event)
+            self._check_key_up_event(event)
+            
+    
+    def _check_key_down_event(self,event):
+        """check if key down event occure
+            a helper function which allow us to refractor code
+        """
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                self.ship.moving_right=True
+            elif event.key == pygame.K_LEFT:    
+                self.ship.moving_left=True
+
+    def _check_key_up_event(self,event):
+        """check if key up event occure
+            a helper function which allow us to refractor code
+        """
+        if event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:
                     self.ship.moving_right=False
                 elif event.key == pygame.K_LEFT:
                     self.ship.moving_left=False
+            
     def _update_screen(self):
         """update the screen content and flip the new screen"""
         self.screen.fill(self.settings.bg_color)

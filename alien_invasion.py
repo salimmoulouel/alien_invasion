@@ -128,6 +128,13 @@ class Alien_invasion:
         for bullet in self.bullets.copy():
                 if( bullet.rect.bottom<=0 ):
                    self.bullets.remove(bullet)
+        
+        # checks for colision between objects and remove them
+        pygame.sprite.groupcollide(self.bullets,self.aliens,True,True)
+
+        #check for fleet presence and renew if necessary
+        if not self.aliens:
+            self._create_fleet()
     def _update_aliens(self):
         """ update position of all aliens"""
         self._check_fleet_edges()
@@ -148,6 +155,9 @@ class Alien_invasion:
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
+
+        
+
     def run_game(self):
         """start the game by calling a main loop"""
         while True:

@@ -1,10 +1,12 @@
 import pygame
+from pygame.sprite import Sprite
 
 
 class Ship:
    """A class to manage the ship."""
    def __init__(self, ai_game):
       """Initialize the ship and set its starting position."""
+      #super().__init__()
       self.screen = ai_game.screen
       self.settings = ai_game.settings
       self.screen_rect = ai_game.screen.get_rect()
@@ -33,3 +35,7 @@ class Ship:
          self.x -= self.settings.ship_speed
       # assign the integer part of x to the x of rect object, rect.x cant be float (it's a pixel)
       self.rect.x=self.x
+
+   def center_ship(self):
+      self.rect.midbottom = self.screen_rect.midbottom
+      self.x = self.rect.x

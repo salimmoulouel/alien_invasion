@@ -33,23 +33,23 @@ class Alien_invasion:
         alien = Alien(self)
         alien_width = alien.rect.width
         # we release 1 alien width in the left and right of screen
-        available_space_x = self.settings.screen_width - ( alien_width)
+        available_space_x = self.settings.screen_width - ( 2 * alien_width) # corriger 1 au lieu de 2
         # we let 1 alien_width in the right of each alien
         number_aliens_x = available_space_x // (2 * alien_width)
-        del alien
-        for alien_number in range(number_aliens_x):
-            alien = Alien(self)
-            #set the left position of each alien in the screen
-            alien.x = alien_width + 2 * alien_width * alien_number
-            alien.rect.x=alien.x
-            self.aliens.add(alien)
         
-            """
-            if(alien.screen.right>self.screen.right):
-                del alien
-                break
-            self.aliens.add(Alien(self))
-            """
+        for alien_number in range(number_aliens_x):
+            self._create_alien(alien_number)
+        
+    def _create_alien(self,alien_number):
+        """ create an alien and place it in the row fleet"""
+        alien = Alien(self)
+        #set the left position of each alien in the screen
+        alien_width=alien.rect.width
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x=alien.x
+        self.aliens.add(alien)
+
+
         
 
     def _check_event(self):

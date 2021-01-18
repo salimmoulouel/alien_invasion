@@ -81,10 +81,17 @@ class Alien_invasion:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
             self._check_key_down_event(event)
             self._check_key_up_event(event)
             
-    
+    def _check_play_button(self,mouse_pos):
+        """start game with click on play button"""
+        if self.play_button.rect.collidepoint(mouse_pos):
+            self.stats.game_active=True
+
     def _check_key_down_event(self,event):
         """check if key down event occure and respond
             a helper function which allow us to refractor code

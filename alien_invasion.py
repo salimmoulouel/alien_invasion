@@ -58,7 +58,8 @@ class Alien_invasion:
     
     def fire_bullet(self):
         """create new bullet and add it to Sprite group"""
-        self.bullets.add(Bullet(self))
+        if(len(self.bullets)<self.settings.bullet_allowed):
+            self.bullets.add(Bullet(self))
     def _update_screen(self):
         """update the screen content and flip the new screen"""
         self.screen.fill(self.settings.bg_color)
@@ -68,18 +69,22 @@ class Alien_invasion:
         # draw the screen after all the changes occured
         pygame.display.flip()
 
+    def _update_bullets(self):
+        """update the ullet position and deal with out of screen bullet"""
+        #update bullet position
+        self.bullets.update()
+        # remove out of screen bullets
+        for bullet in self.bullets.copy():
+                if( bullet.rect.bottom<=0 ):
+                   self.bullets.remove(bullet)
     def run_game(self):
         """start the game by calling a main loop"""
         while True:
             self._check_event()   
             self.ship.update() 
-            self.bullets.update()
+            self._update_bullets()
             self._update_screen()
-            for bullet in self.bullets.copy():
-                if( bullet.rect.bottom<=0 ):
             
-                   self.bullets.remove(bullet)
-                   print(len(self.bullets))
 
 if __name__=="__main__":
     partie = Alien_invasion()

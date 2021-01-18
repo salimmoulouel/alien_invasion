@@ -108,8 +108,13 @@ class Alien_invasion:
         """update the screen content and flip the new screen"""
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
+        
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        
+        # we can make it more beautiful by adding image to bullet object and call the draw method of sprit group
+        #self.bullets.draw(self.screen) 
+
         #draw the aliens
         self.aliens.draw(self.screen)
         # draw the screen after all the changes occured

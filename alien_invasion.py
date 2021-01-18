@@ -1,3 +1,4 @@
+from button import Button
 from game_stats import GameStats
 from alien import Alien
 from ship import Ship
@@ -29,7 +30,11 @@ class Alien_invasion:
 
         self._create_fleet()
 
+        # Make the Play button.
+        self.play_button = Button(self, "Jouer")
 
+
+        
 
     def _create_fleet(self):
         """create fleet of aliens"""
@@ -110,6 +115,7 @@ class Alien_invasion:
             self.bullets.add(Bullet(self))
     def _update_screen(self):
         """update the screen content and flip the new screen"""
+        
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
         
@@ -122,6 +128,9 @@ class Alien_invasion:
         #draw the aliens
         self.aliens.draw(self.screen)
         # draw the screen after all the changes occured
+        # Draw the play button if the game is inactive.
+        if not self.stats.game_active:
+            self.play_button.draw_button()
         pygame.display.flip()
 
     def _update_bullets(self):
@@ -200,7 +209,7 @@ class Alien_invasion:
         """start the game by calling a main loop"""
         while True:
             self._check_event()  
-            if(self.stats.game_activate):
+            if(self.stats.game_active):
                 self.ship.update() 
                 self._update_bullets()
                 self._update_aliens()

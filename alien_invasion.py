@@ -28,25 +28,38 @@ class Alien_invasion:
 
 
     def _create_fleet(self):
-        # create fleet of aliens
+        """create fleet of aliens"""
         # create alien prototype to get the left begin width 
         alien = Alien(self)
-        alien_width = alien.rect.width
-        # we release 1 alien width in the left and right of screen
+        alien_width, alien_height = alien.rect.width, alien.rect.height
+        #we calculate the aliens surface
+            # we release 1 alien width in the left and right of screen
         available_space_x = self.settings.screen_width - ( 2 * alien_width) # corriger 1 au lieu de 2
-        # we let 1 alien_width in the right of each alien
+            # we let 1 alien_width in the right of each alien
         number_aliens_x = available_space_x // (2 * alien_width)
         
-        for alien_number in range(number_aliens_x):
-            self._create_alien(alien_number)
+            # we release 1 alien height in the top and 2 alien height bottom and the ship height
+        available_space_y = (self.settings.screen_height - \
+                            (3 * alien_height) - self.ship.rect.height)
+            # we count how many rows of aliens are drawable
+        number_aliens_y = available_space_y // (2 * alien_height)
+            
+        #one row fleet creation
+        for row_number in range(number_aliens_y):
+            for alien_number in range(number_aliens_x):
+                self._create_alien(alien_number,row_number)
         
-    def _create_alien(self,alien_number):
+
+        
+    def _create_alien(self,alien_number,row_number):
         """ create an alien and place it in the row fleet"""
         alien = Alien(self)
         #set the left position of each alien in the screen
-        alien_width=alien.rect.width
+        alien_width, alien_height=alien.rect.width, alien.rect.height
         alien.x = alien_width + 2 * alien_width * alien_number
+        alien.y = alien_height + 2 * alien_height * row_number
         alien.rect.x=alien.x
+        alien.rect.y=alien.y 
         self.aliens.add(alien)
 
 

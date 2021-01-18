@@ -15,8 +15,8 @@ class Alien_invasion:
         """initialise the game and create game ressources"""
         pygame.init()
         self.settings=Settings()
-        self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
-        
+        self.screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+        self.settings.screen_width, self.settings.screen_height = self.screen.get_rect().width, self.screen.get_rect().height
         pygame.display.set_caption("Alien invasion")
         self.ship=Ship(self)
 
@@ -39,7 +39,7 @@ class Alien_invasion:
             
     
     def _check_key_down_event(self,event):
-        """check if key down event occure
+        """check if key down event occure and respond
             a helper function which allow us to refractor code
         """
         if event.type == pygame.KEYDOWN:
@@ -47,9 +47,10 @@ class Alien_invasion:
                 self.ship.moving_right=True
             elif event.key == pygame.K_LEFT:    
                 self.ship.moving_left=True
-
+            elif event.key == pygame.K_q:    
+                sys.exit()
     def _check_key_up_event(self,event):
-        """check if key up event occure
+        """check if key up event occure and respond
             a helper function which allow us to refractor code
         """
         if event.type == pygame.KEYUP:

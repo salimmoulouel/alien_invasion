@@ -1,3 +1,4 @@
+from scoreboard import Scoreboard
 from button import Button
 from game_stats import GameStats
 from alien import Alien
@@ -34,6 +35,8 @@ class Alien_invasion:
 
         # Make the Play button.
         self.play_button = Button(self, "Jouer")
+
+        self.sb=Scoreboard(self)
 
 
         
@@ -153,7 +156,7 @@ class Alien_invasion:
             
             self.play_button.draw_button()
         
-        
+        self.sb.show_score()
         pygame.display.flip()
 
     def _update_bullets(self):

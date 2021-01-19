@@ -10,7 +10,9 @@ import time
 
 
 
+
 from bullet import Bullet
+i=0
 
 class Alien_invasion:
     """class to manage the game"""
@@ -91,6 +93,13 @@ class Alien_invasion:
         """start game with click on play button"""
         if self.play_button.rect.collidepoint(mouse_pos):
             self.stats.game_active=True
+            self.stats.reset_stats()
+            
+            #empty the screen 
+            self.aliens.empty()
+            #draw new aliens and ship
+            self._create_fleet()
+            self.ship.center_ship()
 
     def _check_key_down_event(self,event):
         """check if key down event occure and respond
@@ -138,6 +147,8 @@ class Alien_invasion:
         # Draw the play button if the game is inactive.
         if not self.stats.game_active:
             self.play_button.draw_button()
+        
+        
         pygame.display.flip()
 
     def _update_bullets(self):
@@ -165,7 +176,7 @@ class Alien_invasion:
     
     def _ship_hit(self):
         """ deal with the collision with ship """
-        if(self.stats.ship_left>0):
+        if(self.stats.ship_left>1):# we take 1 in place of zero to have ship limit and not ship_limit + 1
             self.stats.ship_left -= 1
             
             self.aliens.empty()
@@ -177,7 +188,7 @@ class Alien_invasion:
 
             time.sleep(0.5)
         else:
-            self.stats.game_activate=False
+            self.stats.game_active=False
     def _update_aliens(self):
         """ update position of all aliens"""
         self._check_fleet_edges()

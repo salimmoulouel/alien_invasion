@@ -22,7 +22,9 @@ class Alien_invasion:
         """initialise the game and create game ressources"""
         pygame.init()
         self.settings=Settings()
-        self.screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+        #self.screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((600,600))
+        
         self.settings.screen_width, self.settings.screen_height = self.screen.get_rect().width, self.screen.get_rect().height
         pygame.display.set_caption("Alien invasion")
         #store the game statistics
@@ -99,8 +101,11 @@ class Alien_invasion:
         if (button_clicked) & (not self.stats.game_active):
             self.stats.game_active=True
             self.settings.initialize_dynamic_settings()
-            pygame.mouse.set_visible(False)
             self.stats.reset_stats()
+            self.sb.prep_score
+
+            pygame.mouse.set_visible(False)
+            
             
             #empty the screen 
             self.aliens.empty()
@@ -174,7 +179,13 @@ class Alien_invasion:
     def _check_bullet_alien_collisions(self):
         """Respond to bullet-alien collisions."""
         # Remove any bullets and aliens that have collided.
-        pygame.sprite.groupcollide(self.bullets,self.aliens,True,True)
+        collided=pygame.sprite.groupcollide(self.bullets,self.aliens,True,True)
+        
+        if collided:
+            for aliens in collided.values():
+                self.stats.score+=len(aliens) * self.settings.alien_point
+                self.sb.prep_score()
+                self.sb.check_high_score()
 
         #check if the fleet is empty (renew the fleet and destory all the bullet )
         if not self.aliens:

@@ -9,6 +9,8 @@ class GameStats:
         #begin with the game starting, not paused
         self.game_active=False
 
+        self.high_score = 0
+        
     def reset_stats(self):
         """initialise statistics that can change during the game."""
         self.ship_left = self.settings.ship_limit

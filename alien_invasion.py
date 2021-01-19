@@ -91,7 +91,8 @@ class Alien_invasion:
             
     def _check_play_button(self,mouse_pos):
         """start game with click on play button"""
-        if self.play_button.rect.collidepoint(mouse_pos):
+        # we check if the game is not activate and if the mouse pressed in the button position
+        if (self.play_button.rect.collidepoint(mouse_pos)) & (not self.stats.game_active):
             self.stats.game_active=True
             self.stats.reset_stats()
             
